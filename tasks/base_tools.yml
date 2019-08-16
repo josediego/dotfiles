@@ -1,0 +1,11 @@
+# Base tools
+---
+- name: Linux ricing | Base tools | Install
+  package:
+    state: present
+    name:
+      - git
+      - unzip
+      - curl
+      - wget
+      - jq

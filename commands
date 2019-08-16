@@ -1,0 +1,6 @@
+sudo pacman -S ansible
+sudo chmod +x run_setup.sh
+
+# solving issue with .vboxsf
+vagrant ssh // on host
+sudo ln -sf /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions/mount.vboxsf /sbin/mount.vboxsf // on guest

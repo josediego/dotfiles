@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+
+  tasks:
+    # Begin: installations
+    - include_tasks: tasks/base_tools.yml
+    - include_tasks: tasks/desktop_dependencies.yml

@@ -1,0 +1,36 @@
+# Desktop dependencies
+---
+
+# - name: Linux ricing | Desktop dependencies | Install VirtualBox Guest Tools
+#   package:
+#     state: present
+#     name:
+#       - libx11
+#       - libxcomposite
+#       - libxdamage
+#       - libxext
+#       - libxfixes
+#       - libxmu
+#       - libxt
+#       - xorg-xrandr
+
+- name: Linux ricing | Desktop dependencies | Install X11
+  package:
+    state: present
+    name:
+      - xorg-xinit
+      - xorg-server
+      - xf86-video-intel
+      - xorg-xinput
+
+- name: Linux ricing | Desktop dependencies | Install desktop tools
+  package:
+    state: present
+    name:
+      - i3
+      - rofi
+      - feh
+      - sxhkd # hotkeys 
+      - i3lock
+      - fontconfig
+      - ttf-font-awesome
