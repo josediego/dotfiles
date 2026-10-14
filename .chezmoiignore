@@ -1,0 +1,14 @@
+# Repo infrastructure — these must NOT be symlinked/applied into $HOME.
+README.md
+LICENSE
+Makefile
+bootstrap.sh
+tui.sh
+lib
+profiles
+macos
+test
+templates
+.github
+.githooks
+.gitignore

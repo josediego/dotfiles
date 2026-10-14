@@ -1,0 +1,22 @@
+# ~/.gitconfig — managed by chezmoi (mode 0600 via the `private_` prefix).
+# Identity comes from chezmoi data (prompted on init), not from a committed value.
+[user]
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
+
+# Use the GitHub CLI as the credential helper (works for HTTPS remotes).
+[credential "https://github.com"]
+    helper =
+    helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+    helper =
+    helper = !gh auth git-credential
+
+[init]
+    defaultBranch = main
+[pull]
+    rebase = false
+
+# Machine-local overrides (signing keys, work-only settings) — NEVER committed.
+[include]
+    path = ~/.gitconfig.local

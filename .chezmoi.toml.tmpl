@@ -1,0 +1,24 @@
+{{- /* Prompts run once on `chezmoi init`; answers are cached in the local
+       chezmoi config (~/.config/chezmoi/chezmoi.toml), which is NOT this repo. */ -}}
+{{- $work := promptBoolOnce . "work" "Is this a work machine" -}}
+{{- $name := promptStringOnce . "name" "Git user.name" -}}
+{{- $email := promptStringOnce . "email" "Git user.email" -}}
+
+[data]
+    work = {{ $work }}
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+
+{{- /*
+To enable age-encrypted secrets (safe to commit, even in a PUBLIC repo):
+  1) brew install age
+  2) chezmoi age-keygen -o ~/.config/chezmoi/key.txt   # key.txt is gitignored
+  3) uncomment the block below and paste the public key as `recipient`
+  4) add secrets with:  chezmoi add --encrypt ~/.some_secret_file
+Then edit them with `chezmoi edit` (decrypts to a temp file, re-encrypts on save).
+
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1paste_your_public_key_here"
+encryption = "age"
+*/ -}}

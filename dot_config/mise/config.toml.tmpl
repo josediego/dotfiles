@@ -1,0 +1,9 @@
+# ~/.config/mise/config.toml — managed by chezmoi.
+# Language runtimes, pinned. Edit here and re-run `chezmoi apply` + `mise install`.
+[tools]
+node = "22.20.0"
+bun = "1.3.0"
+go = "1.25.4"
+{{ if .work }}
+# Work-only runtimes can be added here, or kept in a per-project mise config.
+{{- end }}

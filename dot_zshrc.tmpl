@@ -1,0 +1,21 @@
+# ~/.zshrc — managed by chezmoi. Public-safe: no secrets or employer config here.
+# Anything private/machine-specific lives in ~/.zshrc.local (gitignored).
+
+# Oh My Zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="lambda-classic"
+plugins=(git)
+source "$ZSH/oh-my-zsh.sh"
+
+# User configuration
+export PATH="$HOME/.local/bin:$PATH"
+
+# Activate mise if present (manages node/bun/go — see ~/.config/mise/config.toml)
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+{{ if .work }}
+# This machine is flagged as a work machine. Keep work-only env in ~/.zshrc.local.
+{{- end }}
+
+# Machine-specific / private config (tokens, proxies, employer env).
+# NEVER committed — see templates/zshrc.local.example for the shape.
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

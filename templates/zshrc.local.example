@@ -1,0 +1,13 @@
+# Copy to ~/.zshrc.local and fill in. This file is NEVER committed (see .gitignore).
+# Put employer/machine-specific environment and secrets here.
+
+# Example — AWS CodeArtifact token:
+# export CODEARTIFACT_AUTH_TOKEN="..."
+
+# Example — a local AI proxy / overrides:
+# export ANTHROPIC_BASE_URL="http://127.0.0.1:8787"
+# export HEADROOM_PORT="8787"
+
+# Example — work-only PATH or aliases:
+# export PATH="$HOME/work/bin:$PATH"
+# alias deploy="./scripts/deploy.sh"

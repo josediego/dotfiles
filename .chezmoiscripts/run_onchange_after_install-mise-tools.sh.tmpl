@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Runs after `chezmoi apply` whenever the mise config changes.
+# The hash below forces a re-run when the pinned versions change.
+# mise config hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
+set -euo pipefail
+
+if command -v mise >/dev/null 2>&1; then
+  echo "mise: installing pinned runtimes..."
+  mise install
+else
+  echo "mise not found; skipping runtime install (install it via the base profile)." >&2
+fi

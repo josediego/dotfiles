@@ -1,0 +1,36 @@
+# ── Local, machine-specific overrides (NEVER committed) ──
+*.local
+.env
+.env.*
+
+# ── Secrets / keys ──
+# age private key (encrypted *.age blobs ARE committed; the key is not)
+key.txt
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# ── Credential / state stores ──
+*.db
+*.sqlite
+*.sqlite3
+
+# ── chezmoi local state ──
+.chezmoistate*
+
+# ── Backups created by the installer ──
+backups/
+
+# ── macOS cruft ──
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Editor cruft ──
+*.swp
+*~
+.idea/
+.vscode/

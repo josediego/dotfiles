@@ -1,0 +1,11 @@
+# Copy to ~/.gitconfig.local. This file is NEVER committed (see .gitignore).
+# Machine-local git settings: commit signing, work email overrides, etc.
+
+# [user]
+#     signingkey = YOUR_SIGNING_KEY_ID
+# [commit]
+#     gpgsign = true
+
+# Per-directory work identity (git >= 2.13):
+# [includeIf "gitdir:~/work/"]
+#     path = ~/.gitconfig.work

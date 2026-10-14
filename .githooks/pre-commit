@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Pre-commit hook: block any commit that contains secrets.
+# Enable once per clone with:  git config core.hooksPath .githooks
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks is not installed (brew install gitleaks)." >&2
+  echo "pre-commit: refusing to commit without a secret scan." >&2
+  exit 1
+fi
+
+echo "pre-commit: scanning staged changes for secrets..."
+gitleaks protect --staged --redact --verbose

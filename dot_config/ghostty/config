@@ -1,0 +1,50 @@
+# ───────────────────────────────────────────────
+#  Ghostty · "Sober" (Nord)
+#  Commit Mono (neutral) + paleta Nord apagada sobre negro
+# ───────────────────────────────────────────────
+
+# ── Tipografía ──
+font-family = "Commit Mono"
+font-size = 13
+adjust-cell-height = 6%
+
+# ── Fondo / primer plano (gris-blanco frío sobre negro) ──
+background = #000000
+foreground = #cdd3de
+background-opacity = 1.0
+
+# ── Cursor gris-azulado apagado, bloque estable ──
+cursor-style = block
+cursor-style-blink = false
+cursor-color = #81a1c1
+cursor-text = #000000
+
+# ── Selección ──
+selection-background = #3b4252
+selection-foreground = #eceff4
+
+# ── Paleta ANSI · Nord (desaturada) ──
+# normales
+palette = 0=#3b4252
+palette = 1=#bf616a
+palette = 2=#a3be8c
+palette = 3=#ebcb8b
+palette = 4=#81a1c1
+palette = 5=#b48ead
+palette = 6=#88c0d0
+palette = 7=#e5e9f0
+# brillantes
+palette = 8=#4c566a
+palette = 9=#bf616a
+palette = 10=#a3be8c
+palette = 11=#ebcb8b
+palette = 12=#81a1c1
+palette = 13=#b48ead
+palette = 14=#8fbcbb
+palette = 15=#eceff4
+
+# ── Ventana ──
+window-padding-x = 14
+window-padding-y = 12
+window-theme = dark
+mouse-hide-while-typing = true
