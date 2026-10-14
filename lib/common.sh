@@ -17,10 +17,10 @@ die()  { printf '\033[1;31m✗\033[0m %s\n' "$*" >&2; exit 1; }
 
 has() { command -v "$1" >/dev/null 2>&1; }
 
-# run CMD, or just print it under DRY_RUN=1
+# run CMD, or just print it under DRY_RUN=1 (home path shown as ~, never absolute)
 run() {
   if [ "$DRY_RUN" = "1" ]; then
-    printf '\033[2m[dry-run]\033[0m %s\n' "$*"
+    printf '\033[2m[dry-run]\033[0m %s\n' "${*//$HOME/~}"
   else
     "$@"
   fi
@@ -46,7 +46,7 @@ backup_if_exists() {
   local dir="$DOTFILES_ROOT/backups/$(date +%Y%m%d-%H%M%S)"
   run mkdir -p "$dir"
   run cp -a "$target" "$dir/"
-  warn "backed up $target → $dir/"
+  warn "backed up ${target/#$HOME/~} → ${dir/#$HOME/~}/"
 }
 
 # brew bundle with a per-package fallback so one bad formula/cask ≠ the whole run.
