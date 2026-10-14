@@ -3,42 +3,45 @@
 Output docs/demo.gif
 
 Set Shell "bash"
-Set FontFamily "Commit Mono"
-Set FontSize 20
-Set Width 1120
-Set Height 720
-Set Padding 28
+Set FontSize 16
+Set Width 1000
+Set Height 480
+Set Padding 20
 Set Theme "nord"
+Set CursorBlink false
+Set TypingSpeed 55ms
 
-# Setup (hidden): put brew on PATH, enter the repo, clear the screen.
+# Setup (hidden): clean prompt, brew on PATH, enter the repo, clear.
 Hide
+Type `export PS1="$ "`
+Enter
 Type `eval "$(/opt/homebrew/bin/brew shellenv)" && cd ~/workspace/dotfiles && clear`
 Enter
-Sleep 1s
+Sleep 800ms
 Show
 
 Type "./tui.sh --dry-run"
 Enter
-Sleep 3500ms
+Sleep 3800ms
 Screenshot docs/01-menu.png
 
 # Main menu → "Fresh setup"
 Enter
-Sleep 2500ms
+Sleep 1800ms
 Screenshot docs/02-context.png
 
 # Context → "personal"
 Enter
-Sleep 2500ms
+Sleep 1800ms
 Screenshot docs/03-profiles.png
 
 # Profiles (multi-select): pick aesthetics + languages, then confirm
 Space
-Sleep 500ms
+Sleep 450ms
 Down
 Space
-Sleep 1s
+Sleep 900ms
 Enter
-Sleep 3s
+Sleep 2800ms
 Screenshot docs/04-dryrun.png
-Sleep 2s
+Sleep 1800ms
