@@ -1,24 +1,14 @@
-<h1 align="center">dotfiles</h1>
+# dotfiles
+
+My macOS setup as a small tool you can run. It does two things: set up a new Mac
+from scratch, or move an existing one over to a new machine. I keep it public, so
+it's written so that no secrets or work-specific config ever end up in the repo.
 
 <p align="center">
-  A generic, <b>public-safe</b> macOS provisioner — one TUI, two jobs:<br>
-  set up a fresh Mac, or migrate an existing one.
+  <img src="docs/demo.gif" alt="Running the setup" width="720">
 </p>
 
-<p align="center">
-  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg">
-  <img alt="Platform: macOS" src="https://img.shields.io/badge/platform-macOS-lightgrey.svg">
-  <img alt="Built with chezmoi + gum" src="https://img.shields.io/badge/built%20with-chezmoi%20%2B%20gum-5277C3.svg">
-  <img alt="Secrets: gitleaks" src="https://img.shields.io/badge/secrets-gitleaks-2ea44f.svg">
-</p>
-
-<p align="center">
-  <img src="docs/demo.gif" alt="Onboarding flow demo" width="720">
-</p>
-
----
-
-## Quick start
+## Setup
 
 ```bash
 git clone https://github.com/josediego/dotfiles
@@ -26,88 +16,87 @@ cd dotfiles
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` installs the minimum (Xcode CLT, Homebrew, `gum`, `chezmoi`, `gitleaks`, `age`),
-enables the secret-scanning git hook, and opens the TUI. **No `curl | bash`** — you clone and read
-it first.
+`bootstrap.sh` installs what it needs (Xcode CLT, Homebrew, `gum`, `chezmoi`,
+`gitleaks`, `age`), turns on the secret-scanning git hook, and opens the menu. It's a
+plain `git clone`, not a `curl | bash`, so you can read it first.
 
-> On a machine that's already set up, skip the bootstrap and just run `./tui.sh`.
+If the machine is already set up, skip the bootstrap and just run `./tui.sh`.
 
-## The onboarding flow
+## What the menu looks like
 
-The TUI walks you through a few clear choices, then shows a **dry-run preview before touching
-anything**:
+You pick what to do, and it shows you exactly what it's going to run before touching
+anything.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/01-menu.png" alt="Main menu" width="100%"><br><sub><b>1.</b> Pick what to do</sub></td>
-    <td width="50%"><img src="docs/02-context.png" alt="Machine context" width="100%"><br><sub><b>2.</b> Work or personal (drives templating)</sub></td>
+    <td width="50%"><img src="docs/01-menu.png" alt="Main menu" width="100%"><br><sub>Pick what to do</sub></td>
+    <td width="50%"><img src="docs/02-context.png" alt="Machine context" width="100%"><br><sub>Work or personal</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/03-profiles.png" alt="Profile picker" width="100%"><br><sub><b>3.</b> Choose profiles (<code>base</code> is always in)</sub></td>
-    <td width="50%"><img src="docs/04-dryrun.png" alt="Dry-run output" width="100%"><br><sub><b>4.</b> See exactly what will happen</sub></td>
+    <td width="50%"><img src="docs/03-profiles.png" alt="Profiles" width="100%"><br><sub>Choose profiles (base always runs)</sub></td>
+    <td width="50%"><img src="docs/04-dryrun.png" alt="Dry run" width="100%"><br><sub>See what it'll do first</sub></td>
   </tr>
 </table>
 
-## What it sets up
+## What it installs
 
-- **Dotfiles & secrets:** [`chezmoi`](https://chezmoi.io) — templated per machine (work vs personal),
-  with optional [`age`](https://age-encryption.org)-encrypted secrets that are safe to commit.
-- **Packages:** declarative `Brewfile`s, one per profile (`base`, `aesthetics`, `languages`, `cloud`,
-  `ai`). `base` is always installed.
-- **Runtimes:** [`mise`](https://mise.jdx.dev) (node, bun, go — pinned in `dot_config/mise/`).
-- **Look & feel:** Ghostty with **Commit Mono** + the **Nord** palette, and the `lambda-classic`
-  zsh prompt.
-- **macOS defaults:** an opt-in, conservative set of `defaults write` tweaks.
+- Dotfiles and secrets with [chezmoi](https://chezmoi.io). Files are templated per
+  machine (work vs personal), and if you want a secret in the repo you can encrypt it
+  with [age](https://age-encryption.org).
+- Packages from `Brewfile`s, grouped into profiles: `base`, `aesthetics`,
+  `languages`, `cloud`, `ai`. `base` always runs.
+- Runtimes with [mise](https://mise.jdx.dev): node, bun, go.
+- The terminal look: Ghostty with Commit Mono and the Nord colors, plus the
+  `lambda-classic` zsh prompt.
+- An optional set of macOS defaults (keyboard, Finder, Dock, screenshots).
 
-## Two modes
+## The two modes
 
-| Mode | What it does |
-|------|--------------|
-| **Fresh setup** | `gum` asks for context + profiles → `brew bundle` → `chezmoi init --apply` → `mise install`. Idempotent; existing files are backed up to `backups/` first. |
-| **Migrate** | `gum` asks for transport (SSH / local), direction (pull / push), source, and which path-sets to move → `rsync` with a dry-run preview and an explicit confirmation. **Hosts and paths are entered at runtime, never stored in the repo.** |
+**Fresh setup** asks for context and profiles, runs `brew bundle`, applies the
+dotfiles with `chezmoi`, and installs the mise runtimes. You can re-run it; it backs
+up anything it would overwrite first.
+
+**Migrate** asks how to connect (SSH or a local drive), which way to go (pull or
+push), where from, and what to copy. It runs `rsync`, shows a dry run, and waits for
+you to confirm. The host and paths are typed in when you run it; nothing is stored in
+the repo.
 
 Flags: `--dry-run`, `--non-interactive`, `--work` / `--personal`, `--only "a,b"`.
 
-## Security model
+## Keeping it public
 
-This repo is **public**, so it is built so that **nothing secret or employer-specific ever lands in
-git**.
+The rule is just: nothing private goes in git.
 
-- **No secrets in git, ever.** Private/machine-specific config lives in gitignored `~/.zshrc.local`
-  and `~/.gitconfig.local` (see [`templates/`](templates/)). The committed dotfiles only *source* them.
-- **Encrypted secrets (optional):** with `age`, real secrets are committed only as `encrypted_*.age`
-  blobs — safe even in a public repo. The private key stays at `~/.config/chezmoi/key.txt`
-  (gitignored) and is moved between machines over a secure channel, never via git.
-- **Scanned twice:** a [`gitleaks`](https://github.com/gitleaks/gitleaks) pre-commit hook **and** a
-  GitHub Action on every push/PR. Run the gate yourself anytime with `make scan`.
-- **Works the same at a company or at home** — the `--work` context keeps personal tooling off a
-  corporate machine and vice versa.
+- Machine-specific or secret stuff lives in `~/.zshrc.local` and `~/.gitconfig.local`,
+  which are gitignored. The committed files only source them. See [`templates/`](templates/).
+- If a secret does need to be in the repo, encrypt it with `age`. chezmoi commits it
+  as an `*.age` file and the key stays on your machine, out of git.
+- A `gitleaks` hook runs before every commit, and the same scan runs in CI. You can
+  run it yourself with `make scan`.
 
-## Make targets
+## make
 
 ```text
-make help       list targets
-make lint       shellcheck every script
-make test       bats smoke tests
-make scan       gitleaks over the whole tree
-make doctor     report chezmoi drift (nonzero if out of sync)
+make help     list targets
+make lint     shellcheck the scripts
+make test     bats tests
+make scan     gitleaks over the whole tree
+make doctor   show chezmoi drift
 ```
 
-## Layout
+## Files
 
 ```text
 bootstrap.sh            entry point
-tui.sh                  the gum TUI (Fresh / Migrate / macOS defaults)
+tui.sh                  the menu (fresh / migrate / macOS defaults)
 lib/                    common, fresh, migrate, macos helpers
 profiles/*.Brewfile     package sets
-macos/defaults.sh       guarded, idempotent system tweaks
+macos/defaults.sh       the system tweaks
 dot_*                   chezmoi-managed dotfiles (zsh, ghostty, mise, gitconfig, omz theme)
-templates/*.example     the shape of the gitignored *.local files
-docs/demo.tape          VHS script that regenerates the demo (vhs docs/demo.tape)
-.githooks/pre-commit    gitleaks secret scan
-.github/workflows/      gitleaks CI
+templates/*.example     examples for the gitignored *.local files
+docs/demo.tape          VHS script to regenerate the demo (vhs docs/demo.tape)
 ```
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
