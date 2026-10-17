@@ -32,8 +32,13 @@ setup() {
   done
 }
 
-@test "no tracked file contains the employer domain" {
-  # Needle is split so this test file does not itself contain the literal string.
-  run bash -c 'grep -rIl "employer""-domain" "$DOTFILES_ROOT" --exclude-dir=.git || true'
+@test "no tracked file contains a blocklisted term" {
+  # Terms live outside the repo so they are never committed themselves.
+  local blocklist="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/blocklist"
+  [ -s "$blocklist" ] || skip "no blocklist at $blocklist"
+  local terms
+  terms="$(grep -Ev '^[[:space:]]*(#|$)' "$blocklist" || true)"
+  [ -n "$terms" ] || skip "blocklist is empty"
+  run bash -c 'cd "$DOTFILES_ROOT" && git ls-files -z | xargs -0 grep -IilwF -e "$1" || true' _ "$terms"
   [ -z "$output" ]
 }

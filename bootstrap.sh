@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Entry point. Safe on a brand-new Mac. Installs the minimum, then launches the TUI.
 #
-#   git clone https://github.com/josediego/dotfiles && cd dotfiles && ./bootstrap.sh
+#   git clone https://github.com/<you>/dotfiles && cd dotfiles && ./bootstrap.sh
 #
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

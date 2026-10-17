@@ -1,0 +1,8 @@
+# Copy to ~/.config/dotfiles/blocklist. This file is NEVER committed.
+# One term per line, matched as a whole word, case-insensitive. Anything listed
+# here is refused by the pre-commit hook and fails `make test`.
+#
+# your-employer
+# your-employer.com
+# your-work-github-user
+# your-personal-github-user

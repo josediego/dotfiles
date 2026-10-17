@@ -11,7 +11,7 @@ it's written so that no secrets or work-specific config ever end up in the repo.
 ## Setup
 
 ```bash
-git clone https://github.com/josediego/dotfiles
+git clone https://github.com/<you>/dotfiles
 cd dotfiles
 ./bootstrap.sh
 ```
@@ -80,6 +80,10 @@ The rule is just: nothing private goes in git.
   as an `*.age` file and the key stays on your machine, out of git.
 - A `gitleaks` hook runs before every commit, and the same scan runs in CI. You can
   run it yourself with `make scan`.
+- Names you never want in the repo (employer, usernames, hostnames) go in
+  `~/.config/dotfiles/blocklist`, one per line. That file is not in the repo. The
+  pre-commit hook refuses any commit that adds one of them, and `make test` checks
+  the whole tree. See [`templates/blocklist.example`](templates/blocklist.example).
 
 ## make
 

@@ -11,3 +11,15 @@ fi
 
 echo "pre-commit: scanning staged changes for secrets..."
 gitleaks protect --staged --redact --verbose
+
+# Private names (employer, usernames...) live outside the repo, one per line.
+blocklist="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/blocklist"
+if [ -s "$blocklist" ]; then
+  terms="$(grep -Ev '^[[:space:]]*(#|$)' "$blocklist" || true)"
+  if [ -n "$terms" ] && git diff --cached -U0 --no-color | grep -E '^\+[^+]' \
+      | grep -iqwF -e "$terms"; then
+    echo "pre-commit: staged changes contain a term from $blocklist" >&2
+    echo "pre-commit: refusing to commit. Check with: git diff --cached" >&2
+    exit 1
+  fi
+fi
