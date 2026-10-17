@@ -48,6 +48,9 @@ anything.
 - Runtimes with [mise](https://mise.jdx.dev): node, bun, go.
 - The terminal look: Ghostty with Commit Mono and the Nord colors, plus the
   `lambda-classic` zsh prompt.
+- A minimal Claude Code status line (model, dir, branch, context tokens, session
+  tokens, 5h limit, cost) using Nerd Font icons. Applying the dotfiles points
+  `~/.claude/settings.json` at it without touching the rest of that file.
 - An optional set of macOS defaults (keyboard, Finder, Dock, screenshots).
 
 ## The two modes
