@@ -12,3 +12,4 @@ templates
 .github
 .githooks
 .gitignore
+docs
