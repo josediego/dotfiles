@@ -36,6 +36,9 @@ IFS=$'\x1f' read -r model cwd cost ctx_pct ctx_used ctx_size tok_in tok_out five
     ] | join("\u001f")' 2>/dev/null <<<"$input"
 )"
 dir="${cwd##*/}"
+# Strip control chars so a crafted dir/model name can't inject escape sequences.
+dir=${dir//[[:cntrl:]]/}
+model=${model//[[:cntrl:]]/}
 
 # --- glyphs ------------------------------------------------------------------
 G_MODEL=$'\U000F06A9'   # nf-md-robot
@@ -87,11 +90,17 @@ if [[ ( -z "$ctx_used" || -z "$tok_in" ) && -n "$transcript" && -f "$transcript"
 fi
 
 # --- git branch (+ dirty marker) ---------------------------------------------
+# Read-only git: ignore repo-set helpers (fsmonitor, external diff, textconv)
+# so a cloned repo's .git/config can't run commands on every refresh.
+gitq() {
+  git -c core.fsmonitor= -c core.untrackedCache=false --no-optional-locks -C "$cwd" "$@"
+}
 branch=""
-if [[ -n "$cwd" ]] && git -C "$cwd" rev-parse --is-inside-work-tree &>/dev/null; then
-  branch="$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null \
-           || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)"
-  if [[ -n "$branch" ]] && ! git -C "$cwd" diff --quiet --ignore-submodules HEAD &>/dev/null; then
+if [[ -n "$cwd" ]] && gitq rev-parse --is-inside-work-tree &>/dev/null; then
+  branch="$(gitq symbolic-ref --short HEAD 2>/dev/null \
+           || gitq rev-parse --short HEAD 2>/dev/null)"
+  branch=${branch//[[:cntrl:]]/}
+  if [[ -n "$branch" ]] && ! gitq diff --quiet --no-ext-diff --no-textconv --ignore-submodules HEAD &>/dev/null; then
     branch="${branch}*"
   fi
 fi
