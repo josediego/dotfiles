@@ -1,0 +1,13 @@
+[user]
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
+
+# Use this account's gh token no matter which gh account is active.
+[credential "https://github.com"]
+    helper =
+    helper = "!f() { test \"$1\" = get || exit 0; echo username={{ .user }}; echo \"password=$(gh auth token -u {{ .user }})\"; }; f"
+
+# Send SSH remotes over HTTPS so the token above is the one used.
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+    insteadOf = ssh://git@github.com/

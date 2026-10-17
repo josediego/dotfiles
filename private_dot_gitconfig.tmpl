@@ -17,6 +17,15 @@
 [pull]
     rebase = false
 
+# Identity per folder: everything under the workspace is personal, except the
+# work folder. Later includes win, so the work one goes last.
+[includeIf "gitdir:{{ .workspace }}/"]
+    path = ~/.gitconfig.personal
+{{- if .work }}
+[includeIf "gitdir:{{ .workspace }}/{{ .work_dir }}/"]
+    path = ~/.gitconfig.work
+{{- end }}
+
 # Machine-local overrides (signing keys, work-only settings) — NEVER committed.
 [include]
     path = ~/.gitconfig.local

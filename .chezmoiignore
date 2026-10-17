@@ -13,3 +13,8 @@ templates
 .githooks
 .gitignore
 docs
+
+# Only work machines get the work git identity.
+{{ if not .work }}
+.gitconfig.work
+{{ end }}

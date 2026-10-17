@@ -3,11 +3,28 @@
 {{- $work := promptBoolOnce . "work" "Is this a work machine" -}}
 {{- $name := promptStringOnce . "name" "Git user.name" -}}
 {{- $email := promptStringOnce . "email" "Git user.email" -}}
+{{- $workspace := promptStringOnce . "workspace" "Workspace folder (repos live here)" "~/workspace" -}}
+{{- $personalGithub := promptStringOnce . "personal_github" "Personal GitHub username" -}}
+{{- $personalEmail := promptStringOnce . "personal_email" "Personal git email" -}}
+{{- $workDir := "" -}}{{- $workName := "" -}}{{- $workEmail := "" -}}{{- $workGithub := "" -}}
+{{- if $work -}}
+{{-   $workDir = promptStringOnce . "work_dir" "Work folder inside the workspace" "work" -}}
+{{-   $workName = promptStringOnce . "work_name" "Work git user.name" $name -}}
+{{-   $workEmail = promptStringOnce . "work_email" "Work git email" -}}
+{{-   $workGithub = promptStringOnce . "work_github" "Work GitHub username" -}}
+{{- end -}}
 
 [data]
     work = {{ $work }}
     name = {{ $name | quote }}
     email = {{ $email | quote }}
+    workspace = {{ $workspace | quote }}
+    personal_github = {{ $personalGithub | quote }}
+    personal_email = {{ $personalEmail | quote }}
+    work_dir = {{ $workDir | quote }}
+    work_name = {{ $workName | quote }}
+    work_email = {{ $workEmail | quote }}
+    work_github = {{ $workGithub | quote }}
 
 {{- /*
 To enable age-encrypted secrets (safe to commit, even in a PUBLIC repo):

@@ -43,6 +43,10 @@ anything.
 - Dotfiles and secrets with [chezmoi](https://chezmoi.io). Files are templated per
   machine (work vs personal), and if you want a secret in the repo you can encrypt it
   with [age](https://age-encryption.org).
+- A git identity per folder. Repos under `~/workspace` commit and push as your
+  personal GitHub account, and on a work machine repos under the work folder use
+  the work account. Each one uses its own `gh` token, so you never have to switch
+  accounts.
 - Packages from `Brewfile`s, grouped into profiles: `base`, `aesthetics`,
   `languages`, `cloud`, `ai`. `base` always runs.
 - Runtimes with [mise](https://mise.jdx.dev): node, bun, go.
